@@ -3,11 +3,13 @@ package com.quickblox.AndroidVideoChat;
 import android.media.*;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import com.quickblox.AndroidVideoChat.camera.CameraSurfaceView;
+import com.quickblox.AndroidVideoChat.stun.TCPClient;
 
 public class MyActivity extends FragmentActivity {
 
@@ -37,12 +39,28 @@ public class MyActivity extends FragmentActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.main);
+//        ServerConnect.runUdpClient();
+
+        final TCPClient tcpClient = new TCPClient(new TCPClient.OnMessageReceived() {
+            @Override
+            public void messageReceived(String message) {
+                Log.d("messageReceived", message);
+            }
+        });
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                tcpClient.run();
+            }
+        }).start();
+
 
         pictureFromCameraImageView = (ImageView) findViewById(R.id.pictureFromCameraImageView);
         cameraPreview = (CameraSurfaceView) findViewById(R.id.camera_preview);
         cameraPreview.setPictureFromCameraImageView(pictureFromCameraImageView);
         addContentView(cameraPreview.getDrawOnTop(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        startStreaming();
+//        startStreaming();
     }
 
 
