@@ -2,14 +2,8 @@ package com.quickblox.AndroidVideoChat.stun;
 
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
+import java.io.*;
+import java.net.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -55,7 +49,9 @@ public class TCPClient {
 
                 Log.v("Connection Thread", "Connection Successful");
                 DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-                BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+//                BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+                DataInputStream dis = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
 
                 byte[] data = new byte[20];
                 data[0] = 0x00;
@@ -86,16 +82,22 @@ public class TCPClient {
 
                 outToServer.write(data);
                 Log.v("Connection Thread", "Sent Auth Message");
-                String response = null;
 
-                response = inFromServer.readLine();
+                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                DataOutputStream dos = new DataOutputStream(outStream);
+                byte buffer[] = new byte[8192];
+                int read;
+                while ((read = dis.read(buffer)) != -1) {
+                    dos.write(buffer, 0, read);
+                    dos.flush();
+                }
+                dis.close();
+                dos.close();
+                outStream.close();
 
+                processResponse(outStream.toByteArray());
 
-                processResponse(response);
-
-                Log.v("TCP Client", "Response: " + response);
                 outToServer.close();
-                inFromServer.close();
                 clientSocket.close();
             } else {
                 Log.v("Connection Thread", "Not Connected yet...");
@@ -108,8 +110,32 @@ public class TCPClient {
 
     }
 
-    private void processResponse(String response) {
-        byte[] responseArray = response.getBytes();
+    public static int unsignedToBytes(byte b) {
+        return b & 0xFF;
+    }
+
+    public static final int twoBytesToInteger(byte[] value) {
+        int temp0 = value[0] & 0xFF;
+        int temp1 = value[1] & 0xFF;
+        return ((temp0 << 8) + temp1);
+    }
+
+    private void processResponse(byte[] responseArray) {
+//        byte[] responseArray = response.getBytes();
+        for (int i = 0; i < responseArray.length; i++) {
+            Log.v("Response", i + " " + responseArray[i] + "");
+        }
+        byte[] ip = new byte[4];
+        System.arraycopy(responseArray, 40, ip, 0, 4);
+        try {
+            InetAddress inet4Address = Inet4Address.getByAddress(ip);
+            byte[] portArray = new byte[2];
+            System.arraycopy(responseArray, 38, portArray, 0, 2);
+            int port = twoBytesToInteger(portArray);
+            Log.v("Response", "INETADDR: " + inet4Address + ":" + port);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         String responseType = String.valueOf(responseArray[0]) + String.valueOf(responseArray[1]);
         Log.d("Response", responseType);
         String parameterLength = String.valueOf(responseArray[2]) + String.valueOf(responseArray[3]);
@@ -124,6 +150,7 @@ public class TCPClient {
             parameters += String.valueOf(responseArray[i]) + "+";
         }
         Log.d("Response", parameters);
+        Log.d("Response", parameters.replaceAll("-17+-65+-67", "-"));
     }
 
     //Declare the interface. The method messageReceived(String message) will must be implemented in the MyActivity
