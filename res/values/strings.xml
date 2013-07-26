@@ -11,4 +11,5 @@
     <string name="audio_off">audio off</string>
     <string name="video_on">video on</string>
     <string name="audio_on">audio on</string>
+    <string name="call_user">call </string>
 </resources>

@@ -33,30 +33,14 @@ public class VideoChatActivity extends FragmentActivity {
 
             @Override
             public void onCallEnd() {
-               finishCall();
+                finishCall();
             }
         });
     }
 
-//    @Override
-//    public void onResume() {
-//
-//    }
-
-
-    private void finishCall(){
-//        this.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-
-//                Toast.makeText(getBaseContext(), "onCallEnd", Toast.LENGTH_SHORT).show();
-
-                QBVideoChat.finishVideoChat();
-//                Intent intent = new Intent(getBaseContext(), UserListActivity.class);
-//                startActivity(intent);
-                finish();
-//            }
-//        });
+    private void finishCall() {
+        QBVideoChat.finishVideoChat();
+        finish();
     }
 
 
@@ -76,7 +60,6 @@ public class VideoChatActivity extends FragmentActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        QBVideoChat.finishVideoChat();
     }
 
 

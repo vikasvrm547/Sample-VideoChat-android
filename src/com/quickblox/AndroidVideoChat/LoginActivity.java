@@ -27,6 +27,11 @@ public class LoginActivity extends Activity {
     private final String SECOND_USER_LOGIN = "videoChatUser2";
 
 
+    private final int firstUserId = 217738;
+    private final String firstUserName = "first user";
+    private final String secondUserName = "second user";
+    private final int secondUserId = 217740;
+
     private ProgressDialog progressDialog;
 
     @Override
@@ -90,6 +95,8 @@ public class LoginActivity extends Activity {
 
     private void startUserListActivity() {
         Intent intent = new Intent(this, UserListActivity.class);
+        intent.putExtra("userId", DataHolder.getInstance().getCurrentQbUser().getId() == firstUserId ? secondUserId : firstUserId);
+        intent.putExtra("userName", DataHolder.getInstance().getCurrentQbUser().getId() == firstUserId ? secondUserName : firstUserName);
         startActivity(intent);
         finish();
     }
