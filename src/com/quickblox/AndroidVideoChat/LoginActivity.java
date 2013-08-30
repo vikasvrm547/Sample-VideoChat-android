@@ -43,6 +43,7 @@ public class LoginActivity extends Activity {
         progressDialog.setMessage(getString(R.string.please_wait));
         progressDialog.setCancelable(false);
 
+
         findViewById(R.id.loginByFirstUserBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,6 +60,12 @@ public class LoginActivity extends Activity {
             }
         });
 
+//
+//        byte[] xorAddress = new byte[]{00, 00, 01, 01, 01, 00, 00, 01};
+//        Log.d("XOR__", VideoChatUtils.xorAddressToString(xorAddress));
+//
+//        String xor = "00010101 01010101";
+//        Log.d("XOR__", Arrays.toString(VideoChatUtils.xorAddressToByteArray(xor.replace(" ", ""))));
 
     }
 

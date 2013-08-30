@@ -2,58 +2,94 @@ package com.quickblox.AndroidVideoChat;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
-import com.quickblox.module.chat.videochat.QBVideoChat;
-import com.quickblox.module.chat.videochat.QBVideoChatSettings;
-import com.quickblox.module.chat.videochat.listeners.QBVideoChatListener;
-import com.quickblox.module.chat.videochat.views.CameraSurfaceView;
-import com.quickblox.module.chat.videochat.views.OpponentSurfaceView;
+import com.quickblox.module.chat.videochat.VideoChatService;
+import com.quickblox.module.chat.videochat.listeners.OnCameraViewListener;
+import com.quickblox.module.chat.videochat.listeners.OnVideoChatServiceListener;
+import com.quickblox.module.chat.videochat.listeners.VideoChatViewListener;
+import com.quickblox.module.chat.videochat.model.CallState;
+import com.quickblox.module.chat.videochat.model.VideoChatConfig;
+import com.quickblox.module.chat.videochat.views.CameraView;
+import com.quickblox.module.chat.videochat.views.OpponentView;
 
 public class VideoChatActivity extends FragmentActivity {
 
-    private CameraSurfaceView videoRecorder;
-    private OpponentSurfaceView opponentSurfaceView;
+    private CameraView cameraView;
+    private OpponentView opponentSurfaceView;
     private ProgressBar opponentImageLoadingPb;
+    private VideoChatConfig videoChatConfig;
+    private Button switchBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+
+        videoChatConfig = (VideoChatConfig) getIntent().getParcelableExtra(
+                VideoChatConfig.class.getCanonicalName());
+        Log.d("onCreate", videoChatConfig.toString());
+        VideoChatService.getService().startVideoChat(videoChatConfig);
         init();
-        QBVideoChatSettings.getInstance().setContext(this);
-        QBVideoChatSettings.getInstance().setOpponentSurfaceView(opponentSurfaceView);
-        QBVideoChatSettings.getInstance().setVideoRecorder(videoRecorder);
-        QBVideoChatSettings.getInstance().setOpponentImageLoadingPb(opponentImageLoadingPb);
-        QBVideoChat.startVideoChat(new QBVideoChatListener() {
+        VideoChatService.getService().setVideoChatViewListener(videoChatViewListener);
+//        cameraView.switchCamera();
+        cameraView.setCameraViewListener(new OnCameraViewListener() {
             @Override
-            public void onCallStart() {
-
+            public void onReceiveFrame(byte[] cameraData) {
+                VideoChatService.getService().sendVideoData(cameraData);
             }
+        });
 
+        VideoChatService.getService().startVideoChat(new OnVideoChatServiceListener() {
             @Override
-            public void onCallEnd() {
-                finishCall();
+            public void onVideoChatStateChange(CallState state, VideoChatConfig chat) {
+                if (state == CallState.ON_CALL_END) {
+                    Log.d("finishVideoCall", "finishVideoCall");
+                    finishCall();
+                }
             }
         });
     }
 
     private void finishCall() {
-        QBVideoChat.finishVideoChat();
         finish();
     }
 
+    VideoChatViewListener videoChatViewListener = new VideoChatViewListener() {
+        @Override
+        public void onReceiveData(byte[] data) {
+            Log.d("onReceiveData", "onReceiveData" + String.valueOf(data.length));
+
+            opponentSurfaceView.setData(data);
+        }
+
+        @Override
+        public void onProgress(boolean progress) {
+            opponentImageLoadingPb.setVisibility(progress ? View.VISIBLE : View.GONE);
+        }
+    };
+
 
     private void init() {
-        opponentSurfaceView = (OpponentSurfaceView) findViewById(R.id.opponentSurfaceView);
-        videoRecorder = (CameraSurfaceView) findViewById(R.id.camera_preview);
+        switchBtn = (Button) findViewById(R.id.switchBtn);
+        switchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cameraView.switchCamera();
+            }
+        });
+        opponentSurfaceView = (OpponentView) findViewById(R.id.opponentSurfaceView);
+        cameraView = (CameraView) findViewById(R.id.camera_preview);
         opponentImageLoadingPb = (ProgressBar) findViewById(R.id.opponentImageLoading);
 
     }
 
     @Override
     public void onStop() {
-        QBVideoChat.finishVideoChat();
+        VideoChatService.getService().finishVideoChat(videoChatConfig.getSessionId());
         super.onStop();
     }
 
@@ -61,6 +97,5 @@ public class VideoChatActivity extends FragmentActivity {
     public void onDestroy() {
         super.onDestroy();
     }
-
 
 }

@@ -8,10 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import com.quickblox.module.chat.videochat.QBVideoChat;
-import com.quickblox.module.chat.videochat.QBVideoChatSettings;
-import com.quickblox.module.chat.videochat.listeners.QBVideoCallListener;
-import com.quickblox.module.chat.videochat.listeners.QBVideoChatListener;
+import com.quickblox.module.chat.videochat.listeners.OnVideoChatServiceListener;
+import com.quickblox.module.chat.videochat.model.VideoChatConfig;
+import com.quickblox.module.chat.videochat.VideoChatService;
+import com.quickblox.module.chat.videochat.model.CallState;
+import com.quickblox.module.chat.videochat.model.CallType;
 import com.quickblox.module.users.model.QBUser;
 
 /**
@@ -35,69 +36,88 @@ public class UserListActivity extends Activity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.please_wait));
 
-        QBVideoChatSettings.getInstance().setContext(this);
-        QBVideoChatSettings.getInstance().setCurrentUser(DataHolder.getInstance().getCurrentQbUser());
-        QBVideoChatSettings.getInstance().setOpponentSurfaceViewWidth(300);
-        QBVideoChatSettings.getInstance().setOpponentSurfaceViewHeight(200);
-
         int userId = getIntent().getIntExtra("userId", 0);
         String userName = getIntent().getStringExtra("userName");
 
         callUserBtn.setText(callUserBtn.getText().toString() + " " + userName);
         qbUser = new QBUser(userId);
 
+
+        VideoChatService.getService().setVideoChatListener(DataHolder.getInstance().getCurrentQbUser(), videoChatListener);
+
         callUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 progressDialog.show();
-                QBVideoChat.callUser(qbUser, new QBVideoCallListener() {
-                    @Override
-                    public void didNotAnswer() {
-                        Toast.makeText(getBaseContext(), "didNotAnswer", Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                    }
-
-                    @Override
-                    public void rejectByUser() {
-                        Toast.makeText(getBaseContext(), "rejectByUser", Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                    }
-
-                    @Override
-                    public void acceptByUser() {
-                        Log.d("acceptByUser", "acceptByUser");
-                        progressDialog.dismiss();
-                        startVideoChatActivity();
-                    }
-
-                });
+                VideoChatService.getService().callUser(qbUser, CallType.VIDEO_AUDIO, null);
             }
         });
 
+    }
 
-        QBVideoChat.setVideoChatListener(new QBVideoChatListener() {
+    private OnVideoChatServiceListener videoChatListener = new OnVideoChatServiceListener() {
+        @Override
+        public void onVideoChatStateChange(CallState state, VideoChatConfig videoChatConfig) {
+            switch (state) {
+                case ON_ACCEPT_BY_USER:
+                    Log.d("acceptByUser", "acceptByUser");
+                    progressDialog.dismiss();
+                    startVideoChatActivity(videoChatConfig);
+                    break;
+                case ON_REJECTED_BY_USER:
+                    Toast.makeText(getBaseContext(), "rejectByUser", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    break;
+                case ON_DID_NOT_ANSWERED:
+                    Toast.makeText(getBaseContext(), "didNotAnswer", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    break;
+                case ON_CALL_START:
+                    progressDialog.dismiss();
+                    startVideoChatActivity(videoChatConfig);
+                    break;
+                case ON_CALLING:
+                    Toast.makeText(getBaseContext(), "OnCalling", Toast.LENGTH_SHORT).show();
+                    showCallDialog(videoChatConfig);
+                    break;
+            }
+        }
+    };
+
+
+    private void showCallDialog(final VideoChatConfig videoChatConfig) {
+        DialogHelper.showCallDialog(this, new OnCallDialogListener() {
             @Override
-            public void onCallStart() {
-                progressDialog.dismiss();
-                startVideoChatActivity();
+            public void onAcceptCallClick() {
+                VideoChatService.getService().acceptCall(videoChatConfig);
             }
 
             @Override
-            public void onCallEnd() {
-
+            public void onRejectCallClick() {
+                VideoChatService.getService().rejectCall(videoChatConfig);
             }
         });
     }
 
+
     @Override
     public void onResume() {
-        QBVideoChatSettings.getInstance().setContext(this);
+        VideoChatService.getService().setVideoChatListener(DataHolder.getInstance().getCurrentQbUser(), videoChatListener);
         super.onResume();
     }
 
 
-    private void startVideoChatActivity() {
+    private void startVideoChatActivity(VideoChatConfig videoChatConfig) {
         Intent intent = new Intent(getBaseContext(), VideoChatActivity.class);
+        intent.putExtra(VideoChatConfig.class.getCanonicalName(), videoChatConfig);
         startActivity(intent);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        Log.d("onDestroy", "onDestroy");
+        stopService(new Intent(getApplicationContext(), VideoChatService.class));
+        super.onDestroy();
     }
 }
