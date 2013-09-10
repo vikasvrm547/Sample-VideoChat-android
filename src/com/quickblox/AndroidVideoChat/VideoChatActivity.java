@@ -52,6 +52,8 @@ public class VideoChatActivity extends FragmentActivity {
                 }
             }
         });
+
+        VideoChatService.getService().startVideoChatWith(videoChatConfig.getSessionId());
     }
 
     private void finishCall() {

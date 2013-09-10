@@ -72,7 +72,7 @@ public class UserListActivity extends Activity {
                     Toast.makeText(getBaseContext(), "didNotAnswer", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                     break;
-                case ON_CALL_START:
+                case ON_CHAT_INITIALIZED:
                     progressDialog.dismiss();
                     startVideoChatActivity(videoChatConfig);
                     break;
