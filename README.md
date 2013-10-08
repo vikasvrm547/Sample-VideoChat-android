@@ -7,7 +7,7 @@ Original sample description & setup guide - [http://quickblox.com/developers/Sam
 
 <h3>Important - how to build your own VideoChat app</h3>
 
-If you want to build your own iOS VideoChat app, please do the following:<br />
+If you want to build your own Android VideoChat app, please do the following:<br />
 1) download the project from here (GIT)<br />
 2) register a QuickBlox account (if you don't have one yet): http://admin.quickblox.com/register<br />
 3) log in to QuickBlox admin panel http://admin.quickblox.com/signin<br />
@@ -16,5 +16,5 @@ If you want to build your own iOS VideoChat app, please do the following:<br />
 
 ![App credentials](http://files.quickblox.com/QuickBlox_application_credentials.png)
 
-6) copy credentials (App ID, Authorization key, Authorization secret) into your VideoChat project code in /VideoChat-sample-ios/AppDelegate.m<br />
+6) copy credentials (App ID, Authorization key, Authorization secret) into your VideoChat project<br />
 7) Enjoy!
