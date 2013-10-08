@@ -3,7 +3,8 @@ This is a code sample for [QuickBlox](http://quickblox.com/) platform. It is a g
 
 Original sample description & setup guide - [http://quickblox.com/developers/Sample-videochat-android](http://quickblox.com/developers/Sample-videochat-android)
 
-![VideoChat sample Home screen](http://files.quickblox.com/videoChat5.png) &nbsp;&nbsp;&nbsp;&nbsp; ![Video conference](http://files.quickblox.com/videoChat6.png)
+<img src="http://files.quickblox.com/videoChat5.png" width=200 />
+&nbsp;&nbsp;&nbsp;&nbsp; <img src="http://files.quickblox.com/videoChat6.png" width=200 />
 
 <h3>Important - how to build your own VideoChat app</h3>
 
