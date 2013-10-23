@@ -11,6 +11,6 @@
         android:layout_width="250dp"
         android:text="@string/call_user"
         android:textSize="25dp"
-        android:layout_alignParentLeft="true" android:layout_marginLeft="42dp" android:layout_alignParentTop="true"
-        android:layout_marginTop="71dp"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="71dp" android:layout_centerHorizontal="true"/>
 </RelativeLayout>

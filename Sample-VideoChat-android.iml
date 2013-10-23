@@ -14,7 +14,7 @@
     <orderEntry type="jdk" jdkName="Android 4.2.2 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="android-support-v4" level="project" />
-    <orderEntry type="library" name="SDK-android-1.0.0_build-32" level="project" />
+    <orderEntry type="library" name="SDK-android-1.0.0_build-34" level="project" />
   </component>
 </module>
 
