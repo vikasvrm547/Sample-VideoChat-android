@@ -37,7 +37,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.screen_login);
+        setContentView(R.layout.login_layout);
         QBSettings.getInstance().fastConfigInit("2944", "RfghS97xYA29Mha", "L2EXV6ut-vD8Zus");
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.please_wait));
@@ -59,14 +59,6 @@ public class LoginActivity extends Activity {
                 authorize(SECOND_USER_LOGIN, SECOND_USER_PASSWORD);
             }
         });
-
-//
-//        byte[] xorAddress = new byte[]{00, 00, 01, 01, 01, 00, 00, 01};
-//        Log.d("XOR__", VideoChatUtils.xorAddressToString(xorAddress));
-//
-//        String xor = "00010101 01010101";
-//        Log.d("XOR__", Arrays.toString(VideoChatUtils.xorAddressToByteArray(xor.replace(" ", ""))));
-
     }
 
     @Override

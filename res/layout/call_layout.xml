@@ -3,13 +3,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent" android:background="@drawable/background">
 
     <Button
         android:id="@+id/callUserBtn"
         android:layout_height="100dp"
         android:layout_width="250dp"
         android:text="@string/call_user"
-        android:layout_centerInParent="true"
-        android:textSize="25dp"/>
+        android:textSize="25dp"
+        android:layout_alignParentLeft="true" android:layout_marginLeft="42dp" android:layout_alignParentTop="true"
+        android:layout_marginTop="71dp"/>
 </RelativeLayout>

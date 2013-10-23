@@ -30,7 +30,7 @@ public class UserListActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.screen_user_list);
+        setContentView(R.layout.call_layout);
 
         callUserBtn = (Button) findViewById(R.id.callUserBtn);
         progressDialog = new ProgressDialog(this);

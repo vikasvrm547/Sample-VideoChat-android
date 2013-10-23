@@ -35,11 +35,6 @@
             android:layout_below="@+id/camera_preview"
             android:visibility="visible"/>
 
-        <Button
-            android:id="@+id/switchBtn"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="switch"/>
     </RelativeLayout>
 
 

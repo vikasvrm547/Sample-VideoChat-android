@@ -21,12 +21,11 @@ public class VideoChatActivity extends FragmentActivity {
     private OpponentView opponentSurfaceView;
     private ProgressBar opponentImageLoadingPb;
     private VideoChatConfig videoChatConfig;
-    private Button switchBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.main_layout);
 
 
         videoChatConfig = (VideoChatConfig) getIntent().getParcelableExtra(
@@ -76,13 +75,6 @@ public class VideoChatActivity extends FragmentActivity {
 
 
     private void init() {
-        switchBtn = (Button) findViewById(R.id.switchBtn);
-        switchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cameraView.switchCamera();
-            }
-        });
         opponentSurfaceView = (OpponentView) findViewById(R.id.opponentSurfaceView);
         cameraView = (CameraView) findViewById(R.id.camera_preview);
         opponentImageLoadingPb = (ProgressBar) findViewById(R.id.opponentImageLoading);
@@ -99,5 +91,4 @@ public class VideoChatActivity extends FragmentActivity {
     public void onDestroy() {
         super.onDestroy();
     }
-
 }
