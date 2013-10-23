@@ -9,6 +9,7 @@ import com.quickblox.core.QBCallbackImpl;
 import com.quickblox.core.QBSettings;
 import com.quickblox.core.result.Result;
 import com.quickblox.module.auth.QBAuth;
+import com.quickblox.module.auth.result.QBSessionResult;
 import com.quickblox.module.users.model.QBUser;
 import com.quickblox.module.users.result.QBUserResult;
 import com.quickblox.videochatsample.DataHolder;
@@ -83,9 +84,11 @@ public class LoginActivity extends Activity {
             public void onComplete(Result result) {
                 if (result.isSuccess()) {
                     // Save current User
-                    QBUser user = ((QBUserResult) result).getUser();
+                    QBUser user = new QBUser();
                     user.setPassword(password);
-                    DataHolder.getInstance().setCurrentQbUser(((QBUserResult) result).getUser());
+                    user.setLogin(login);
+                    user.setId(((QBSessionResult)result).getSession().getUserId());
+                    DataHolder.getInstance().setCurrentQbUser(user);
 
                     // open next activity
                     Intent intent = new Intent(LoginActivity.this, CallUserActivity.class);

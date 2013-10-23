@@ -10,11 +10,22 @@ import com.quickblox.module.chat.videochat.VideoChatService;
  * Date: 8/20/13
  * Time: 12:03 PM
  */
-public class App extends Application {
+public class VideoChatApplication extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Start videoChat service
         startService(new Intent(this, VideoChatService.class));
+    }
+
+    @Override
+    public void onTerminate() {
+
+        // Stop videoChat service
+        stopService(new Intent(getApplicationContext(), VideoChatService.class));
+
+        super.onTerminate();
     }
 }

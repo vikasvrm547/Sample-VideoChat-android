@@ -61,19 +61,17 @@ public class CallUserActivity extends Activity {
 
     @Override
     public void onResume() {
-        if(DataHolder.getInstance().getCurrentQbUser() == null){
-            Log.d("NULL1", "NULL1");
+        if(VideoChatService.getService() != null){
+            VideoChatService.getService().setVideoChatListener(DataHolder.getInstance().getCurrentQbUser(), videoChatListener);
         }
-        if(VideoChatService.getService() == null){
-            Log.d("NULL2", "NULL2");
-        }
-        VideoChatService.getService().setVideoChatListener(DataHolder.getInstance().getCurrentQbUser(), videoChatListener);
         super.onResume();
     }
 
     @Override
     public void onDestroy() {
-        stopService(new Intent(getApplicationContext(), VideoChatService.class));
+//        // Stop videoChat service
+//        stopService(new Intent(getApplicationContext(), VideoChatService.class));
+
         super.onDestroy();
     }
 
