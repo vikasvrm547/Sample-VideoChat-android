@@ -25,19 +25,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/quickblox/videochatsample/VideoChatApplication.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/quickblox/videochatsample/App.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/CallUserActivity.java" afterPath="$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/CallUserActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/LoginActivity.java" afterPath="$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/LoginActivity.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/libs/SDK-android-1.0.0_build-34.jar" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/libraries/SDK_android_1_0_0_build_34.xml" afterPath="$PROJECT_DIR$/.idea/libraries/SDK_android_1_0_0_build_42.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Sample-VideoChat-android.iml" afterPath="$PROJECT_DIR$/Sample-VideoChat-android.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/VideoChatActivity.java" afterPath="$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/VideoChatActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Sample-VideoChat-android.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382547317606" ignored="false" />
-    <file path="/fragment.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382540925577" ignored="false" />
+    <file path="/Dummy.txt" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382561313673" ignored="false" />
+    <file path="/fragment.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382564143344" ignored="false" />
     <file path="/screen_login.xml" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382542269796" ignored="false" />
-    <file path="/*.regexp" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382550669602" ignored="false" />
+    <file path="/*.regexp" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382566451641" ignored="false" />
     <file path="/strings.xml" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382543769902" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382544168617" ignored="false" />
     <file path="$PROJECT_DIR$/gen/com/quickblox/AndroidVideoChat6/BuildConfig.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382543560258" ignored="false" />
@@ -46,13 +45,18 @@
     <file path="/main_layout.xml" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382544754332" ignored="false" />
     <file path="$PROJECT_DIR$/../SDK-android/src/com/quickblox/module/chat/videochat/stun/UDPDataClient.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382545371519" ignored="false" />
     <file path="/UDPDataClient.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382545368638" ignored="false" />
-    <file path="/VideoChatActivity.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382548915600" ignored="false" />
+    <file path="/VideoChatActivity.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382567125338" ignored="false" />
     <file path="$PROJECT_DIR$/../SDK-android/src/com/quickblox/module/chat/videochat/utils/AudioVideoReceiver.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382547057717" ignored="false" />
-    <file path="$PROJECT_DIR$/../SDK-android/src/com/quickblox/module/chat/videochat/VideoChat.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382547251282" ignored="false" />
+    <file path="$PROJECT_DIR$/../SDK-android/src/com/quickblox/module/chat/videochat/VideoChat.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382561741224" ignored="false" />
     <file path="/VideoChat.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382547248373" ignored="false" />
     <file path="/UserListActivity.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382549993367" ignored="false" />
     <file path="/LoginActivity.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382549171586" ignored="false" />
     <file path="/VideoChatApplication.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382550415937" ignored="false" />
+    <file path="$PROJECT_DIR$/../SDK-android/src/com/quickblox/module/chat/videochat/VideoChatService.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382561953400" ignored="false" />
+    <file path="$PROJECT_DIR$/../SDK-android/src/com/quickblox/module/chat/videochat/views/CameraView.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382569808254" ignored="false" />
+    <file path="/CameraView.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382569790571" ignored="false" />
+    <file path="$PROJECT_DIR$/../SDK-android/src/com/quickblox/module/chat/videochat/utils/ProcessCameraViewThread.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382565735237" ignored="false" />
+    <file path="/ProcessCameraViewThread.java" changelist="25b00ef1-2b13-4e80-a6fa-99c96075b6d2" time="1382565734471" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,19 +147,21 @@
       <file leaf-file-name="CallUserActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/CallUserActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="3" selection-start="2384" selection-end="2500" vertical-scroll-proportion="-5.3461537">
+            <state line="120" column="39" selection-start="4339" selection-end="4361" vertical-scroll-proportion="-10.846154">
               <folding>
                 <element signature="e#1718#2024#0" expanded="true" />
                 <element signature="e#2013#2014#0" expanded="true" />
+                <element signature="e#2595#3841#0" expanded="true" />
+                <element signature="e#3834#3835#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VideoChatApplication.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="VideoChatApplication.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/quickblox/videochatsample/VideoChatApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="8" selection-start="661" selection-end="661" vertical-scroll-proportion="3.7850468">
+            <state line="27" column="8" selection-start="661" selection-end="661" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -172,23 +178,37 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DataHolder.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/quickblox/videochatsample/DataHolder.java">
+      <file leaf-file-name="main_layout.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/main_layout.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="32" selection-start="611" selection-end="627" vertical-scroll-proportion="0.0">
+            <state line="22" column="66" selection-start="838" selection-end="838" vertical-scroll-proportion="-3.0961537">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VideoChatActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="VideoChatActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/VideoChatActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="86" column="28" selection-start="3230" selection-end="3230" vertical-scroll-proportion="0.0">
+            <state line="61" column="72" selection-start="2392" selection-end="2392" vertical-scroll-proportion="0.79646015">
               <folding>
-                <element signature="e#1996#2335#0" expanded="true" />
-                <element signature="e#2324#2325#0" expanded="true" />
+                <element signature="e#1701#2019#0" expanded="true" />
+                <element signature="e#2008#2009#0" expanded="true" />
+                <element signature="e#3145#3471#0" expanded="true" />
+                <element signature="e#3464#3465#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Intent.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/../SDK/android/platforms/android-17/android.jar!/android/content/Intent.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="331" column="48" selection-start="24889" selection-end="24889" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -200,15 +220,6 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TcpDataClient.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/libs/SDK-android-1.0.0_build-34.jar!/com/quickblox/module/chat/videochat/stun/TcpDataClient.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="0" selection-start="2330" selection-end="2330" vertical-scroll-proportion="-1.76">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -244,15 +255,15 @@
         <option value="$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/LoginActivity.java" />
         <option value="$PROJECT_DIR$/src/com/quickblox/videochatsample/App.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/VideoChatActivity.java" />
         <option value="$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/CallUserActivity.java" />
         <option value="$PROJECT_DIR$/src/com/quickblox/videochatsample/VideoChatApplication.java" />
+        <option value="$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/VideoChatActivity.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="49" />
-    <option name="y" value="22" />
+    <option name="x" value="-9" />
+    <option name="y" value="26" />
     <option name="width" value="1420" />
     <option name="height" value="803" />
   </component>
@@ -419,7 +430,7 @@
     <property name="options.lastSelected" value="reference.projectsettings.compiler.javacompiler" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/SDK-android-1.0.0_build-34.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/SDK-android-1.0.0_build-42.jar!/" />
     <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
@@ -609,7 +620,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="49" y="22" width="1420" height="803" extended-state="0" />
+    <frame x="-9" y="26" width="1420" height="803" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329429" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -623,13 +634,13 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3235725" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.76866764" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.7218155" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329429" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2496361" sideWeight="0.534407" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2496361" sideWeight="0.23133236" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28257686" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2496361" sideWeight="0.27818447" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35431919" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32969433" sideWeight="0.761347" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32969433" sideWeight="0.761347" order="2" side_tool="false" content_ui="tabs" />
@@ -703,11 +714,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$PROJECT_DIR$/../SDK/android/platforms/android-17/android.jar!/android/os/Handler.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="0" selection-start="3374" selection-end="3374" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -738,23 +744,6 @@
       </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state line="25" column="43" selection-start="1314" selection-end="1314" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/main_layout.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="66" selection-start="838" selection-end="838" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/libs/SDK-android-1.0.0_build-34.jar!/com/quickblox/module/chat/videochat/stun/TcpDataClient.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="0" selection-start="2330" selection-end="2330" vertical-scroll-proportion="-1.76">
           <folding />
         </state>
       </provider>
@@ -794,6 +783,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/quickblox/videochatsample/VideoChatApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="8" selection-start="661" selection-end="661" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../SDK/android/platforms/android-17/android.jar!/android/content/Intent.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="331" column="48" selection-start="24889" selection-end="24889" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/CallUserActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="120" column="39" selection-start="4339" selection-end="4361" vertical-scroll-proportion="-10.846154">
+          <folding>
+            <element signature="e#1718#2024#0" expanded="true" />
+            <element signature="e#2013#2014#0" expanded="true" />
+            <element signature="e#2595#3841#0" expanded="true" />
+            <element signature="e#3834#3835#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="90" column="66" selection-start="3192" selection-end="3192" vertical-scroll-proportion="0.0">
@@ -803,31 +820,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/main_layout.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="66" selection-start="838" selection-end="838" vertical-scroll-proportion="-3.0961537">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/VideoChatActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="28" selection-start="3230" selection-end="3230" vertical-scroll-proportion="0.0">
+        <state line="61" column="72" selection-start="2392" selection-end="2392" vertical-scroll-proportion="0.79646015">
           <folding>
-            <element signature="e#1996#2335#0" expanded="true" />
-            <element signature="e#2324#2325#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/quickblox/videochatsample/activity/CallUserActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="3" selection-start="2384" selection-end="2500" vertical-scroll-proportion="-5.3461537">
-          <folding>
-            <element signature="e#1718#2024#0" expanded="true" />
-            <element signature="e#2013#2014#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/quickblox/videochatsample/VideoChatApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="8" selection-start="661" selection-end="661" vertical-scroll-proportion="3.7850468">
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#1701#2019#0" expanded="true" />
+            <element signature="e#2008#2009#0" expanded="true" />
+            <element signature="e#3145#3471#0" expanded="true" />
+            <element signature="e#3464#3465#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -908,7 +918,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>SDK-android-1.0.0_build-34</last-edited>
+          <last-edited>SDK-android-1.0.0_build-42</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

@@ -26,18 +26,18 @@ public class VideoChatActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Setup UI
-        setContentView(R.layout.main_layout);
-
-
         videoChatConfig = (VideoChatConfig) getIntent().getParcelableExtra(
                 VideoChatConfig.class.getCanonicalName());
         VideoChatService.getService().startVideoChat(videoChatConfig);
-        init();
-        VideoChatService.getService().setVideoChatViewListener(videoChatViewListener);
-//        cameraView.switchCamera();
 
-        // Set camera
+        // Setup UI
+        setContentView(R.layout.main_layout);
+        opponentSurfaceView = (OpponentView) findViewById(R.id.opponentSurfaceView);
+        cameraView = (CameraView) findViewById(R.id.camera_preview);
+
+
+        VideoChatService.getService().setVideoChatViewListener(videoChatViewListener);
+
         cameraView.setCameraViewListener(new OnCameraViewListener() {
             @Override
             public void onReceiveFrame(byte[] cameraData) {
@@ -47,18 +47,28 @@ public class VideoChatActivity extends FragmentActivity {
                 }
             }
         });
+//        cameraView.switchCamera();
+        opponentImageLoadingPb = (ProgressBar) findViewById(R.id.opponentImageLoading);
 
-        VideoChatService.getService().startVideoChat(new OnVideoChatServiceListener() {
-            @Override
-            public void onVideoChatStateChange(CallState state, VideoChatConfig chat) {
-                if (state == CallState.ON_CALL_END) {
-                    Log.d("finishVideoCall", "finishVideoCall");
-                    finishCall();
-                }
-            }
-        });
+
+        // Start VideoChat
+        //
+
+        VideoChatService.getService().setVideoChatServiceListener(videoChatServiceListener);
 
         VideoChatService.getService().startVideoChatWith(videoChatConfig.getSessionId());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        cameraView.releaseCamera();
+    }
+
+    @Override
+    public void onStop() {
+        VideoChatService.getService().finishVideoChat(videoChatConfig.getSessionId());
+        super.onStop();
     }
 
     private void finishCall() {
@@ -68,7 +78,6 @@ public class VideoChatActivity extends FragmentActivity {
     VideoChatViewListener videoChatViewListener = new VideoChatViewListener() {
         @Override
         public void onReceiveData(byte[] data) {
-            Log.d("onReceiveData", "onReceiveData" + String.valueOf(data.length));
             opponentSurfaceView.setData(data);
         }
 
@@ -78,16 +87,13 @@ public class VideoChatActivity extends FragmentActivity {
         }
     };
 
-    private void init() {
-        opponentSurfaceView = (OpponentView) findViewById(R.id.opponentSurfaceView);
-        cameraView = (CameraView) findViewById(R.id.camera_preview);
-        opponentImageLoadingPb = (ProgressBar) findViewById(R.id.opponentImageLoading);
-
-    }
-
-    @Override
-    public void onStop() {
-        VideoChatService.getService().finishVideoChat(videoChatConfig.getSessionId());
-        super.onStop();
-    }
+    OnVideoChatServiceListener videoChatServiceListener = new OnVideoChatServiceListener() {
+        @Override
+        public void onVideoChatStateChange(CallState callState, VideoChatConfig videoChatConfig) {
+            if (callState == CallState.ON_CALL_END) {
+                Log.d("finishVideoCall", "finishVideoCall");
+                finishCall();
+            }
+        }
+    };
 }
