@@ -1,4 +1,4 @@
-package com.quickblox.AndroidVideoChat.model.listener;
+package com.quickblox.videochatsample.model.listener;
 
 /**
  * Created with IntelliJ IDEA.

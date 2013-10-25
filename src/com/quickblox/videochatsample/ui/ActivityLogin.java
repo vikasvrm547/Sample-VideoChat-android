@@ -1,12 +1,12 @@
-package com.quickblox.AndroidVideoChat.ui;
+package com.quickblox.videochatsample.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import com.quickblox.AndroidVideoChat.R;
-import com.quickblox.AndroidVideoChat.model.DataHolder;
+import com.quickblox.videochatsample.R;
+import com.quickblox.videochatsample.model.DataHolder;
 import com.quickblox.core.QBCallbackImpl;
 import com.quickblox.core.QBSettings;
 import com.quickblox.core.result.Result;

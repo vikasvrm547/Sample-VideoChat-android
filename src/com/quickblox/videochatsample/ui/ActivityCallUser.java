@@ -1,4 +1,4 @@
-package com.quickblox.AndroidVideoChat.ui;
+package com.quickblox.videochatsample.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -8,10 +8,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import com.quickblox.AndroidVideoChat.R;
-import com.quickblox.AndroidVideoChat.model.DataHolder;
-import com.quickblox.AndroidVideoChat.model.listener.OnCallDialogListener;
-import com.quickblox.AndroidVideoChat.model.utils.DialogHelper;
+import com.quickblox.videochatsample.R;
+import com.quickblox.videochatsample.model.DataHolder;
+import com.quickblox.videochatsample.model.listener.OnCallDialogListener;
+import com.quickblox.videochatsample.model.utils.DialogHelper;
 import com.quickblox.module.users.model.QBUser;
 import com.quickblox.module.videochat.core.QBVideoChatService;
 import com.quickblox.module.videochat.model.listeners.OnQBVideoChatListener;
