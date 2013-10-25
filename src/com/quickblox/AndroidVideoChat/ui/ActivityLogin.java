@@ -40,11 +40,9 @@ public class ActivityLogin extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
-        QBSettings.getInstance().fastConfigInit("2944", "RfghS97xYA29Mha", "L2EXV6ut-vD8Zus");
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.please_wait));
         progressDialog.setCancelable(false);
-
 
         findViewById(R.id.loginByFirstUserBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +59,10 @@ public class ActivityLogin extends Activity {
                 authorize(SECOND_USER_LOGIN, SECOND_USER_PASSWORD);
             }
         });
+
+        // Set QuickBlox credentials here
+        //
+        QBSettings.getInstance().fastConfigInit("2944", "RfghS97xYA29Mha", "L2EXV6ut-vD8Zus");
     }
 
     @Override
@@ -70,6 +72,9 @@ public class ActivityLogin extends Activity {
     }
 
     private void authorize(final String login, final String password) {
+
+        // Create QuickBlox session
+        //
         QBAuth.createSession(new QBCallbackImpl() {
             @Override
             public void onComplete(Result result) {
@@ -81,6 +86,8 @@ public class ActivityLogin extends Activity {
     }
 
     private void signIn(String login, final String password) {
+        // Login QuickBlox user
+        //
         QBUsers.signIn(login, password, new QBCallbackImpl() {
             @Override
             public void onComplete(Result result) {
