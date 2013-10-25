@@ -47,6 +47,8 @@ public class ActivityCallUser extends Activity {
 
         isCanceledVideoCall = true;
 
+        // Setup UI
+        //
         callUserBtn = (Button) findViewById(R.id.callUserBtn);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.please_wait));
@@ -70,6 +72,8 @@ public class ActivityCallUser extends Activity {
         String userName = getIntent().getStringExtra("userName");
         callUserBtn.setText(callUserBtn.getText().toString() + " " + userName);
 
+        // Set VideoCHat listener
+        //
         QBVideoChatService.getService().setQBVideoChatListener(DataHolder.getInstance().getCurrentQbUser(), qbVideoChatListener);
     }
 
@@ -127,7 +131,6 @@ public class ActivityCallUser extends Activity {
             }
         });
     }
-
 
     @Override
     public void onResume() {

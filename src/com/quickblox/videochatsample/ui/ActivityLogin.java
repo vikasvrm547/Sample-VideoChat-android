@@ -5,15 +5,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import com.quickblox.videochatsample.R;
-import com.quickblox.videochatsample.model.DataHolder;
 import com.quickblox.core.QBCallbackImpl;
 import com.quickblox.core.QBSettings;
 import com.quickblox.core.result.Result;
 import com.quickblox.module.auth.QBAuth;
-import com.quickblox.module.users.QBUsers;
-import com.quickblox.module.users.model.QBUser;
-import com.quickblox.module.users.result.QBUserResult;
+import com.quickblox.module.auth.result.QBSessionResult;
+import com.quickblox.videochatsample.R;
+import com.quickblox.videochatsample.model.DataHolder;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +26,6 @@ public class ActivityLogin extends Activity {
     private final String SECOND_USER_PASSWORD = "videoChatUser2";
     private final String SECOND_USER_LOGIN = "videoChatUser2";
 
-
     private final int firstUserId = 217738;
     private final String firstUserName = "first user";
     private final String secondUserName = "second user";
@@ -39,6 +36,9 @@ public class ActivityLogin extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // setup UI
+        //
         setContentView(R.layout.login_layout);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.please_wait));
@@ -48,7 +48,7 @@ public class ActivityLogin extends Activity {
             @Override
             public void onClick(View view) {
                 progressDialog.show();
-                authorize(FIRST_USER_LOGIN, FIRST_USER_PASSWORD);
+                createSession(FIRST_USER_LOGIN, FIRST_USER_PASSWORD);
             }
         });
 
@@ -56,7 +56,7 @@ public class ActivityLogin extends Activity {
             @Override
             public void onClick(View view) {
                 progressDialog.show();
-                authorize(SECOND_USER_LOGIN, SECOND_USER_PASSWORD);
+                createSession(SECOND_USER_LOGIN, SECOND_USER_PASSWORD);
             }
         });
 
@@ -71,37 +71,25 @@ public class ActivityLogin extends Activity {
         super.onResume();
     }
 
-    private void authorize(final String login, final String password) {
+    private void createSession(String login, final String password) {
 
-        // Create QuickBlox session
+        // Create QuickBlox session with user
         //
-        QBAuth.createSession(new QBCallbackImpl() {
+        QBAuth.createSession(login, password, new QBCallbackImpl() {
             @Override
             public void onComplete(Result result) {
                 if (result.isSuccess()) {
-                    signIn(login, password);
+                    // save current user
+                    DataHolder.getInstance().setCurrentQbUser(((QBSessionResult) result).getSession().getUserId(), password);
+
+                    // show next activity
+                    showCallUserActivity();
                 }
             }
         });
     }
 
-    private void signIn(String login, final String password) {
-        // Login QuickBlox user
-        //
-        QBUsers.signIn(login, password, new QBCallbackImpl() {
-            @Override
-            public void onComplete(Result result) {
-                if (result.isSuccess()) {
-                    QBUser user = ((QBUserResult) result).getUser();
-                    user.setPassword(password);
-                    DataHolder.getInstance().setCurrentQbUser(((QBUserResult) result).getUser());
-                    startUserListActivity();
-                }
-            }
-        });
-    }
-
-    private void startUserListActivity() {
+    private void showCallUserActivity() {
         Intent intent = new Intent(this, ActivityCallUser.class);
         intent.putExtra("userId", DataHolder.getInstance().getCurrentQbUser().getId() == firstUserId ? secondUserId : firstUserId);
         intent.putExtra("userName", DataHolder.getInstance().getCurrentQbUser().getId() == firstUserId ? secondUserName : firstUserName);
