@@ -2,9 +2,9 @@ package com.quickblox.AndroidVideoChat.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -30,98 +30,99 @@ public class ActivityCallUser extends Activity {
     private ProgressDialog progressDialog;
     private Button callUserBtn;
     private QBUser qbUser;
+    private boolean isCanceledVideoCall;
+    private VideoChatConfig videoChatConfig;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.call_layout);
+        initViews();
+    }
+
+    private void initViews() {
+
+        int userId = getIntent().getIntExtra("userId", 0);
+        qbUser = new QBUser(userId);
+
+        isCanceledVideoCall = true;
 
         callUserBtn = (Button) findViewById(R.id.callUserBtn);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.please_wait));
 
-        int userId = getIntent().getIntExtra("userId", 0);
-        String userName = getIntent().getStringExtra("userName");
-
-        callUserBtn.setText(callUserBtn.getText().toString() + " " + userName);
-        qbUser = new QBUser(userId);
-
-        try {
-            QBVideoChatService.getService().setQBVideoChatListener(DataHolder.getInstance().getCurrentQbUser(), qbVideoChatListener);
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
-        }
-
+        progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                if (isCanceledVideoCall) {
+                    QBVideoChatService.getService().stopCalling(videoChatConfig);
+                }
+            }
+        });
 
         callUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 progressDialog.show();
-                QBVideoChatService.getService().callUser(qbUser, CallType.VIDEO_AUDIO, null);
+                videoChatConfig = QBVideoChatService.getService().callUser(qbUser, CallType.VIDEO_AUDIO, null);
             }
         });
+        String userName = getIntent().getStringExtra("userName");
+        callUserBtn.setText(callUserBtn.getText().toString() + " " + userName);
 
+        QBVideoChatService.getService().setQBVideoChatListener(DataHolder.getInstance().getCurrentQbUser(), qbVideoChatListener);
     }
 
     private OnQBVideoChatListener qbVideoChatListener = new OnQBVideoChatListener() {
-        @Override
-        public void onCameraDataReceive(byte[] videoData) {
-        }
 
         @Override
-        public void onMicrophoneDataReceive(byte[] audioData) {
-        }
-
-        @Override
-        public void onOpponentVideoDataReceive(byte[] videoData) {
-        }
-
-        @Override
-        public void onOpponentAudiDataReceive(byte[] audioData) {
-        }
-
-        @Override
-        public void onProgress(boolean progress) {
-        }
-
-        @Override
-        public void onVideoChatStateChange(CallState state, VideoChatConfig videoChatConfig) {
+        public void onVideoChatStateChange(CallState state, VideoChatConfig receivedVideoChatConfig) {
+            videoChatConfig = receivedVideoChatConfig;
+            isCanceledVideoCall = false;
             switch (state) {
+                case ON_CALLING:
+                    showCallDialog();
+                    break;
                 case ON_ACCEPT_BY_USER:
-                    Log.d("acceptByUser", "acceptByUser");
                     progressDialog.dismiss();
-                    startVideoChatActivity(videoChatConfig);
+                    startVideoChatActivity();
                     break;
                 case ON_REJECTED_BY_USER:
-                    Toast.makeText(getBaseContext(), "rejectByUser", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                     break;
                 case ON_DID_NOT_ANSWERED:
-                    Toast.makeText(getBaseContext(), "didNotAnswer", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                     break;
-                case ON_CHAT_INITIALIZED:
-                    progressDialog.dismiss();
-                    startVideoChatActivity(videoChatConfig);
+                case ON_CANCELED_CALL:
+                    isCanceledVideoCall = true;
+                    videoChatConfig = null;
                     break;
-                case ON_CALLING:
-                    Toast.makeText(getBaseContext(), "OnCalling", Toast.LENGTH_SHORT).show();
-                    showCallDialog(videoChatConfig);
+                case ON_START_CONNECTING:
+                    progressDialog.dismiss();
+                    startVideoChatActivity();
                     break;
             }
         }
     };
 
 
-    private void showCallDialog(final VideoChatConfig videoChatConfig) {
+    private void showCallDialog() {
         DialogHelper.showCallDialog(this, new OnCallDialogListener() {
             @Override
             public void onAcceptCallClick() {
+                if (videoChatConfig == null) {
+                    Toast.makeText(getBaseContext(), getString(R.string.call_canceled_txt), Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 QBVideoChatService.getService().acceptCall(videoChatConfig);
             }
 
             @Override
             public void onRejectCallClick() {
+                if (videoChatConfig == null) {
+                    Toast.makeText(getBaseContext(), getString(R.string.call_canceled_txt), Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 QBVideoChatService.getService().rejectCall(videoChatConfig);
             }
         });
@@ -139,7 +140,7 @@ public class ActivityCallUser extends Activity {
     }
 
 
-    private void startVideoChatActivity(VideoChatConfig videoChatConfig) {
+    private void startVideoChatActivity() {
         Intent intent = new Intent(getBaseContext(), ActivityVideoChat.class);
         intent.putExtra(VideoChatConfig.class.getCanonicalName(), videoChatConfig);
         startActivity(intent);

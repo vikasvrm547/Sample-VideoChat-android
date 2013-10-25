@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import com.quickblox.AndroidVideoChat.R;
 import com.quickblox.module.videochat.core.QBVideoChatService;
 import com.quickblox.module.videochat.model.listeners.OnQBVideoChatListener;
@@ -80,9 +81,18 @@ public class ActivityVideoChat extends Activity {
         }
 
         @Override
-        public void onVideoChatStateChange(CallState state, VideoChatConfig chat) {
-            if (state == CallState.ON_CALL_END) {
-                finish();
+        public void onVideoChatStateChange(CallState callState, VideoChatConfig chat) {
+            switch (callState) {
+                case ON_CALL_START:
+                    Toast.makeText(getBaseContext(), getString(R.string.call_start_txt), Toast.LENGTH_SHORT).show();
+                    break;
+                case ON_CANCELED_CALL:
+                    Toast.makeText(getBaseContext(), getString(R.string.call_canceled_txt), Toast.LENGTH_SHORT).show();
+                    finish();
+                    break;
+                case ON_CALL_END:
+                    finish();
+                    break;
             }
         }
     };

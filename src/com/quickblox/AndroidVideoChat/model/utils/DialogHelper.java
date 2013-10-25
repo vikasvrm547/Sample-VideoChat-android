@@ -55,4 +55,8 @@ public class DialogHelper {
             }
         }, 2000);
     }
+
+    public static void dismissDialog() {
+        builder = null;
+    }
 }
