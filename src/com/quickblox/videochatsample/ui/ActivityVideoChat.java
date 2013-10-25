@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import com.quickblox.videochatsample.R;
 import com.quickblox.module.videochat.core.QBVideoChatService;
 import com.quickblox.module.videochat.model.listeners.OnQBVideoChatListener;
 import com.quickblox.module.videochat.model.objects.CallState;
 import com.quickblox.module.videochat.model.objects.VideoChatConfig;
 import com.quickblox.module.videochat.views.CameraView;
 import com.quickblox.module.videochat.views.OpponentView;
+import com.quickblox.videochatsample.R;
 
 public class ActivityVideoChat extends Activity {
 
@@ -37,20 +37,25 @@ public class ActivityVideoChat extends Activity {
         // VideoChat
         videoChatConfig = (VideoChatConfig) getIntent().getParcelableExtra(
                 VideoChatConfig.class.getCanonicalName());
-        QBVideoChatService.getService().setQbVideoChatListener(qbVideoChatListener);
-        cameraView.setCameraViewListener(qbVideoChatListener);
-        cameraView.setCameraStickyMode(false);
         QBVideoChatService.getService().startVideoChat(videoChatConfig);
     }
 
     @Override
+    public void onResume() {
+        QBVideoChatService.getService().setQbVideoChatListener(qbVideoChatListener);
+        cameraView.setCameraViewListener(qbVideoChatListener);
+        cameraView.setCameraStickyMode(false);
+        super.onResume();
+    }
+
+    @Override
     public void onStop() {
-        QBVideoChatService.getService().finishVideoChat(videoChatConfig.getSessionId());
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
+        QBVideoChatService.getService().finishVideoChat(videoChatConfig.getSessionId());
         super.onDestroy();
     }
 

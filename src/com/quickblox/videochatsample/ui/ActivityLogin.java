@@ -5,15 +5,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import com.quickblox.videochatsample.R;
-import com.quickblox.videochatsample.model.DataHolder;
 import com.quickblox.core.QBCallbackImpl;
 import com.quickblox.core.QBSettings;
 import com.quickblox.core.result.Result;
 import com.quickblox.module.auth.QBAuth;
-import com.quickblox.module.users.QBUsers;
-import com.quickblox.module.users.model.QBUser;
-import com.quickblox.module.users.result.QBUserResult;
+import com.quickblox.module.auth.result.QBSessionResult;
+import com.quickblox.videochatsample.R;
+import com.quickblox.videochatsample.model.DataHolder;
 
 /**
  * Created with IntelliJ IDEA.
@@ -50,7 +48,7 @@ public class ActivityLogin extends Activity {
             @Override
             public void onClick(View view) {
                 progressDialog.show();
-                authorize(FIRST_USER_LOGIN, FIRST_USER_PASSWORD);
+                createSession(FIRST_USER_LOGIN, FIRST_USER_PASSWORD);
             }
         });
 
@@ -58,7 +56,7 @@ public class ActivityLogin extends Activity {
             @Override
             public void onClick(View view) {
                 progressDialog.show();
-                authorize(SECOND_USER_LOGIN, SECOND_USER_PASSWORD);
+                createSession(SECOND_USER_LOGIN, SECOND_USER_PASSWORD);
             }
         });
     }
@@ -69,25 +67,14 @@ public class ActivityLogin extends Activity {
         super.onResume();
     }
 
-    private void authorize(final String login, final String password) {
-        QBAuth.createSession(new QBCallbackImpl() {
-            @Override
-            public void onComplete(Result result) {
-                if (result.isSuccess()) {
-                    signIn(login, password);
-                }
-            }
-        });
-    }
 
-    private void signIn(String login, final String password) {
-        QBUsers.signIn(login, password, new QBCallbackImpl() {
+
+    private void createSession(String login, final String password) {
+        QBAuth.createSession(login, password, new QBCallbackImpl() {
             @Override
             public void onComplete(Result result) {
                 if (result.isSuccess()) {
-                    QBUser user = ((QBUserResult) result).getUser();
-                    user.setPassword(password);
-                    DataHolder.getInstance().setCurrentQbUser(((QBUserResult) result).getUser());
+                    DataHolder.getInstance().setCurrentQbUser(((QBSessionResult) result).getSession().getUserId(), password);
                     startUserListActivity();
                 }
             }

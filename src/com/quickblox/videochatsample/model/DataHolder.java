@@ -23,8 +23,9 @@ public class DataHolder {
         return dataHolder;
     }
 
-    public void setCurrentQbUser(QBUser currentQbUser) {
-        this.currentQbUser = currentQbUser;
+    public void setCurrentQbUser(int currentQbUserId, String password) {
+        this.currentQbUser = new QBUser(currentQbUserId);
+        this.currentQbUser.setPassword(password);
     }
 
     public QBUser getCurrentQbUser() {
