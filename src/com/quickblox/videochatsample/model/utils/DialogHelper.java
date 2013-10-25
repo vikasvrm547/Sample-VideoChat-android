@@ -1,11 +1,11 @@
-package com.quickblox.AndroidVideoChat.model.utils;
+package com.quickblox.videochatsample.model.utils;
 
-import com.quickblox.AndroidVideoChat.R;
+import com.quickblox.videochatsample.R;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
-import com.quickblox.AndroidVideoChat.model.listener.OnCallDialogListener;
+import com.quickblox.videochatsample.model.listener.OnCallDialogListener;
 import com.quickblox.module.videochat.model.definition.VideoChatConstants;
 
 /**

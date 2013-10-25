@@ -1,4 +1,4 @@
-package com.quickblox.AndroidVideoChat.model;
+package com.quickblox.videochatsample.model;
 
 import com.quickblox.module.users.model.QBUser;
 

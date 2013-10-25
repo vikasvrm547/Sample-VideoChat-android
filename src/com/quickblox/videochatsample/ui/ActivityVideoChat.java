@@ -1,11 +1,11 @@
-package com.quickblox.AndroidVideoChat.ui;
+package com.quickblox.videochatsample.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import com.quickblox.AndroidVideoChat.R;
+import com.quickblox.videochatsample.R;
 import com.quickblox.module.videochat.core.QBVideoChatService;
 import com.quickblox.module.videochat.model.listeners.OnQBVideoChatListener;
 import com.quickblox.module.videochat.model.objects.CallState;
