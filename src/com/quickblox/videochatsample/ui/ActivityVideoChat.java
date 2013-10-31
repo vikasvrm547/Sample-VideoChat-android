@@ -5,7 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import com.quickblox.module.videochat.core.QBVideoChatService;
+import com.quickblox.module.videochat.core.service.QBVideoChatService;
+import com.quickblox.module.videochat.core.service.ServiceInteractor;
 import com.quickblox.module.videochat.model.listeners.OnQBVideoChatListener;
 import com.quickblox.module.videochat.model.objects.CallState;
 import com.quickblox.module.videochat.model.objects.VideoChatConfig;
@@ -64,12 +65,14 @@ public class ActivityVideoChat extends Activity {
     OnQBVideoChatListener qbVideoChatListener = new OnQBVideoChatListener() {
         @Override
         public void onCameraDataReceive(byte[] videoData) {
-            QBVideoChatService.getService().sendVideoData(videoData);
+//            QBVideoChatService.getService().sendVideoData(videoData);      or next
+//            ServiceInteractor.INSTANCE.sendVideoData(ActivityVideoChat.this, videoData);
         }
 
         @Override
         public void onMicrophoneDataReceive(byte[] audioData) {
-            QBVideoChatService.getService().sendAudioData(audioData);
+//            QBVideoChatService.getService().sendAudioData(audioData);
+            ServiceInteractor.INSTANCE.sendAudioData(ActivityVideoChat.this, audioData);
         }
 
         @Override

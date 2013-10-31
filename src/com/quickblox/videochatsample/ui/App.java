@@ -2,7 +2,7 @@ package com.quickblox.videochatsample.ui;
 
 import android.app.Application;
 import android.content.Intent;
-import com.quickblox.module.videochat.core.QBVideoChatService;
+import com.quickblox.module.videochat.core.service.QBVideoChatService;
 
 /**
  * Created with IntelliJ IDEA.

@@ -8,12 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import com.quickblox.module.videochat.model.utils.Debugger;
 import com.quickblox.videochatsample.R;
 import com.quickblox.videochatsample.model.DataHolder;
 import com.quickblox.videochatsample.model.listener.OnCallDialogListener;
 import com.quickblox.videochatsample.model.utils.DialogHelper;
 import com.quickblox.module.users.model.QBUser;
-import com.quickblox.module.videochat.core.QBVideoChatService;
+import com.quickblox.module.videochat.core.service.QBVideoChatService;
 import com.quickblox.module.videochat.model.listeners.OnQBVideoChatListener;
 import com.quickblox.module.videochat.model.objects.CallState;
 import com.quickblox.module.videochat.model.objects.CallType;
@@ -74,7 +75,9 @@ public class ActivityCallUser extends Activity {
 
         // Set VideoCHat listener
         //
-        QBVideoChatService.getService().setQBVideoChatListener(DataHolder.getInstance().getCurrentQbUser(), qbVideoChatListener);
+        QBUser currentQbUser = DataHolder.getInstance().getCurrentQbUser();
+        Debugger.logConnection("setQBVideoChatListener: " + (currentQbUser == null));
+        QBVideoChatService.getService().setQBVideoChatListener(currentQbUser, qbVideoChatListener);
     }
 
     private OnQBVideoChatListener qbVideoChatListener = new OnQBVideoChatListener() {

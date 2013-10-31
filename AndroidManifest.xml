@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.quickblox.module.videochat.core.QBVideoChatService"/>
+        <service android:name="com.quickblox.module.videochat.core.service.QBVideoChatService"/>
     </application>
 
     <uses-permission android:name="android.permission.CAMERA"/>
