@@ -9,6 +9,7 @@ import com.quickblox.module.videochat.core.service.QBVideoChatService;
 import com.quickblox.module.videochat.core.service.ServiceInteractor;
 import com.quickblox.module.videochat.model.listeners.OnQBVideoChatListener;
 import com.quickblox.module.videochat.model.objects.CallState;
+import com.quickblox.module.videochat.model.objects.CallType;
 import com.quickblox.module.videochat.model.objects.VideoChatConfig;
 import com.quickblox.module.videochat.views.CameraView;
 import com.quickblox.module.videochat.views.OpponentView;
@@ -65,13 +66,14 @@ public class ActivityVideoChat extends Activity {
     OnQBVideoChatListener qbVideoChatListener = new OnQBVideoChatListener() {
         @Override
         public void onCameraDataReceive(byte[] videoData) {
-//            QBVideoChatService.getService().sendVideoData(videoData);
+            if (videoChatConfig.getCallType() != CallType.VIDEO_AUDIO) {
+                return;
+            }
             ServiceInteractor.INSTANCE.sendVideoData(ActivityVideoChat.this, videoData);
         }
 
         @Override
         public void onMicrophoneDataReceive(byte[] audioData) {
-//            QBVideoChatService.getService().sendAudioData(audioData);
             ServiceInteractor.INSTANCE.sendAudioData(ActivityVideoChat.this, audioData);
         }
 

@@ -29,10 +29,12 @@ import com.quickblox.module.videochat.model.objects.VideoChatConfig;
 public class ActivityCallUser extends Activity {
 
     private ProgressDialog progressDialog;
-    private Button callUserBtn;
+    private Button audioCallBtn;
+    private Button videoCallBtn;
     private QBUser qbUser;
     private boolean isCanceledVideoCall;
     private VideoChatConfig videoChatConfig;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +47,12 @@ public class ActivityCallUser extends Activity {
 
         int userId = getIntent().getIntExtra("userId", 0);
         qbUser = new QBUser(userId);
-
         isCanceledVideoCall = true;
 
         // Setup UI
         //
-        callUserBtn = (Button) findViewById(R.id.callUserBtn);
+        audioCallBtn = (Button) findViewById(R.id.audioCallBtn);
+        videoCallBtn = (Button) findViewById(R.id.videoCallBtn);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.please_wait));
 
@@ -63,15 +65,23 @@ public class ActivityCallUser extends Activity {
             }
         });
 
-        callUserBtn.setOnClickListener(new View.OnClickListener() {
+        videoCallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 progressDialog.show();
                 videoChatConfig = QBVideoChatService.getService().callUser(qbUser, CallType.VIDEO_AUDIO, null);
             }
         });
-        String userName = getIntent().getStringExtra("userName");
-        callUserBtn.setText(callUserBtn.getText().toString() + " " + userName);
+
+        audioCallBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog.show();
+                videoChatConfig = QBVideoChatService.getService().callUser(qbUser, CallType.AUDIO, null);
+            }
+        });
+//        String userName = getIntent().getStringExtra("userName");
+//        audioCallBtn.setText(audioCallBtn.getText().toString() + " " + userName);
 
         // Set VideoCHat listener
         //

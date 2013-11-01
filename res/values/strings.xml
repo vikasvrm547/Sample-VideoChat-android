@@ -13,4 +13,6 @@
     <string name="login_screen_title">Login as a User1 on the 1st device and as a User2 on the second device</string>
     <string name="call_start_txt">Call Start</string>
     <string name="call_canceled_txt">Call canceled by caller</string>
+    <string name="video_call_txt">VideoCall</string>
+    <string name="audio_call_txt">AudioCall</string>
 </resources>
