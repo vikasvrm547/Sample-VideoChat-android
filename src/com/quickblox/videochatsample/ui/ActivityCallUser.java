@@ -44,7 +44,6 @@ public class ActivityCallUser extends Activity {
     }
 
     private void initViews() {
-
         int userId = getIntent().getIntExtra("userId", 0);
         qbUser = new QBUser(userId);
         isCanceledVideoCall = true;
