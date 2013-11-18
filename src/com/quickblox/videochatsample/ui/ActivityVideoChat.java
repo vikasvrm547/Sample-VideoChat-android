@@ -1,14 +1,12 @@
 package com.quickblox.videochatsample.ui;
 
 import android.app.Activity;
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.quickblox.module.videochat.core.service.QBVideoChatService;
 import com.quickblox.module.videochat.core.service.ServiceInteractor;
-import com.quickblox.module.videochat.model.listeners.OnCameraViewListener;
 import com.quickblox.module.videochat.model.listeners.OnQBVideoChatListener;
 import com.quickblox.module.videochat.model.objects.CallState;
 import com.quickblox.module.videochat.model.objects.CallType;
@@ -16,8 +14,6 @@ import com.quickblox.module.videochat.model.objects.VideoChatConfig;
 import com.quickblox.module.videochat.views.CameraView;
 import com.quickblox.module.videochat.views.OpponentView;
 import com.quickblox.videochatsample.R;
-
-import java.util.List;
 
 public class ActivityVideoChat extends Activity {
 
@@ -46,16 +42,7 @@ public class ActivityVideoChat extends Activity {
         videoChatConfig = (VideoChatConfig) getIntent().getParcelableExtra(
                 VideoChatConfig.class.getCanonicalName());
         QBVideoChatService.getService().startVideoChat(videoChatConfig);
-        cameraView.setOnCameraViewListener(new OnCameraViewListener() {
-            @Override
-            public void onCameraInit(List<Camera.Size> supportedPreviewSizes) {
-                Camera.Size cameraPreviewSize = supportedPreviewSizes.get(supportedPreviewSizes.size() - 1);
-                if (cameraPreviewSize.width > supportedPreviewSizes.get(0).width) {
-                    cameraPreviewSize = supportedPreviewSizes.get(0);
-                }
-                cameraView.setCameraPreviewSizeImageQuality(cameraPreviewSize, 10);
-            }
-        });
+
     }
 
     @Override
