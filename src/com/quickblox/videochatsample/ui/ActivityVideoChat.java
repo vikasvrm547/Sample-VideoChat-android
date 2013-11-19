@@ -59,7 +59,11 @@ public class ActivityVideoChat extends Activity {
 
     @Override
     public void onDestroy() {
-        QBVideoChatService.getService().finishVideoChat(videoChatConfig.getSessionId());
+        try{
+            QBVideoChatService.getService().finishVideoChat(videoChatConfig.getSessionId());
+        } catch (Exception e){
+            /*IGNORE*/
+        }
         super.onDestroy();
     }
 

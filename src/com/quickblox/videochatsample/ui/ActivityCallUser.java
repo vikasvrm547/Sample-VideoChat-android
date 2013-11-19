@@ -86,7 +86,11 @@ public class ActivityCallUser extends Activity {
         //
         QBUser currentQbUser = DataHolder.getInstance().getCurrentQbUser();
         Debugger.logConnection("setQBVideoChatListener: " + (currentQbUser == null));
-        QBVideoChatService.getService().setQBVideoChatListener(currentQbUser, qbVideoChatListener);
+        try {
+            QBVideoChatService.getService().setQBVideoChatListener(currentQbUser, qbVideoChatListener);
+        } catch (Exception e){
+            /*IGNORE*/
+        }
     }
 
     private OnQBVideoChatListener qbVideoChatListener = new OnQBVideoChatListener() {
