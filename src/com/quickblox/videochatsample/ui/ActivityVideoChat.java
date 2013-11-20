@@ -69,11 +69,11 @@ public class ActivityVideoChat extends Activity {
 
     OnQBVideoChatListener qbVideoChatListener = new OnQBVideoChatListener() {
         @Override
-        public void onCameraDataReceive(byte[] videoData) {
+        public void onCameraDataReceive(byte[] videoData, byte value) {
             if (videoChatConfig.getCallType() != CallType.VIDEO_AUDIO) {
                 return;
             }
-            ServiceInteractor.INSTANCE.sendVideoData(ActivityVideoChat.this, videoData);
+            ServiceInteractor.INSTANCE.sendVideoData(ActivityVideoChat.this, videoData, value);
         }
 
         @Override
