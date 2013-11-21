@@ -1,12 +1,14 @@
 package com.quickblox.videochatsample.ui;
 
 import android.app.Activity;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.quickblox.module.videochat.core.service.QBVideoChatService;
 import com.quickblox.module.videochat.core.service.ServiceInteractor;
+import com.quickblox.module.videochat.model.listeners.OnCameraViewListener;
 import com.quickblox.module.videochat.model.listeners.OnQBVideoChatListener;
 import com.quickblox.module.videochat.model.objects.CallState;
 import com.quickblox.module.videochat.model.objects.CallType;
@@ -14,6 +16,8 @@ import com.quickblox.module.videochat.model.objects.VideoChatConfig;
 import com.quickblox.module.videochat.views.CameraView;
 import com.quickblox.module.videochat.views.OpponentView;
 import com.quickblox.videochatsample.R;
+
+import java.util.List;
 
 public class ActivityVideoChat extends Activity {
 
@@ -39,8 +43,7 @@ public class ActivityVideoChat extends Activity {
         opponentImageLoadingPb = (ProgressBar) findViewById(R.id.opponentImageLoading);
 
         // VideoChat settings
-        videoChatConfig = (VideoChatConfig) getIntent().getParcelableExtra(
-                VideoChatConfig.class.getCanonicalName());
+        videoChatConfig = getIntent().getParcelableExtra(VideoChatConfig.class.getCanonicalName());
         QBVideoChatService.getService().startVideoChat(videoChatConfig);
 
     }
@@ -48,8 +51,24 @@ public class ActivityVideoChat extends Activity {
     @Override
     public void onResume() {
         QBVideoChatService.getService().setQbVideoChatListener(qbVideoChatListener);
-        cameraView.setCameraViewListener(qbVideoChatListener);
+        cameraView.setQBVideoChatListener(qbVideoChatListener);
+        cameraView.setOnCameraViewListener(new OnCameraViewListener() {
+            @Override
+            public void onCameraInit(List<Camera.Size> cameraPreviewSizes, List<Integer> listFps) {
+                cameraView.setCameraPreviewSizeImageQualityCameraFps(findMinimalSize(cameraPreviewSizes), 100, findMinimalFPS(listFps));
+            }
+        });
         super.onResume();
+    }
+
+    private int findMinimalFPS(List<Integer> fpSs) {
+        return (fpSs.get(fpSs.size() - 1) > fpSs.get(0)) ? fpSs.get(0) : fpSs.get(fpSs.size() - 1);
+    }
+
+    private Camera.Size findMinimalSize(List<Camera.Size> previewSizes) {
+        return (previewSizes.get(previewSizes.size() - 1).width > previewSizes.get(0).width) ?
+                previewSizes.get(0) :
+                previewSizes.get(previewSizes.size() - 1);
     }
 
     @Override
@@ -59,9 +78,9 @@ public class ActivityVideoChat extends Activity {
 
     @Override
     public void onDestroy() {
-        try{
+        try {
             QBVideoChatService.getService().finishVideoChat(videoChatConfig.getSessionId());
-        } catch (Exception e){
+        } catch (Exception e) {
             /*IGNORE*/
         }
         super.onDestroy();
@@ -87,7 +106,7 @@ public class ActivityVideoChat extends Activity {
         }
 
         @Override
-        public void onOpponentAudiDataReceive(byte[] audioData) {
+        public void onOpponentAudioDataReceive(byte[] audioData) {
             QBVideoChatService.getService().playAudio(audioData);
         }
 
