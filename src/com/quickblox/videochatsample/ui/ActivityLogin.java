@@ -93,6 +93,8 @@ public class ActivityLogin extends Activity {
         Intent intent = new Intent(this, ActivityCallUser.class);
         intent.putExtra("userId", DataHolder.getInstance().getCurrentQbUser().getId() == firstUserId ? secondUserId : firstUserId);
         intent.putExtra("userName", DataHolder.getInstance().getCurrentQbUser().getId() == firstUserId ? secondUserName : firstUserName);
+        intent.putExtra("myId", DataHolder.getInstance().getCurrentQbUser().getId() != firstUserId ? secondUserId : firstUserId);
+        intent.putExtra("myName", DataHolder.getInstance().getCurrentQbUser().getId() != firstUserId ? secondUserName : firstUserName);
         startActivity(intent);
         finish();
     }

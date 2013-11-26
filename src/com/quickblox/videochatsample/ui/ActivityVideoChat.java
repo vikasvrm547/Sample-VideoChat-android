@@ -13,6 +13,7 @@ import com.quickblox.module.videochat.model.listeners.OnQBVideoChatListener;
 import com.quickblox.module.videochat.model.objects.CallState;
 import com.quickblox.module.videochat.model.objects.CallType;
 import com.quickblox.module.videochat.model.objects.VideoChatConfig;
+import com.quickblox.module.videochat.model.utils.Debugger;
 import com.quickblox.module.videochat.views.CameraView;
 import com.quickblox.module.videochat.views.OpponentView;
 import com.quickblox.videochatsample.R;
@@ -35,6 +36,7 @@ public class ActivityVideoChat extends Activity {
     }
 
     private void initViews() {
+        Debugger.logConnection("initViews");
 
         // Setup UI
         //
