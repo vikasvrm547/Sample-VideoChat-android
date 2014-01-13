@@ -17,4 +17,5 @@ public class App extends Application {
         super.onCreate();
         startService(new Intent(this, QBVideoChatService.class));
     }
+
 }
