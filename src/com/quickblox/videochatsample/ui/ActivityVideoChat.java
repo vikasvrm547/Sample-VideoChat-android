@@ -2,7 +2,9 @@ package com.quickblox.videochatsample.ui;
 
 import android.app.Activity;
 import android.hardware.Camera;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -14,16 +16,14 @@ import com.quickblox.module.videochat.model.objects.CallState;
 import com.quickblox.module.videochat.model.objects.CallType;
 import com.quickblox.module.videochat.model.objects.VideoChatConfig;
 import com.quickblox.module.videochat.model.utils.Debugger;
-import com.quickblox.module.videochat.views.CameraView;
-import com.quickblox.module.videochat.views.OpponentView;
 import com.quickblox.videochatsample.R;
 
 import java.util.List;
 
 public class ActivityVideoChat extends Activity {
 
-    private CameraView cameraView;
-    private OpponentView opponentSurfaceView;
+    private GLSurfaceView cameraView;
+    private GLSurfaceView opponentView;
     private ProgressBar opponentImageLoadingPb;
     private VideoChatConfig videoChatConfig;
 
@@ -40,28 +40,25 @@ public class ActivityVideoChat extends Activity {
 
         // Setup UI
         //
-        opponentSurfaceView = (OpponentView) findViewById(R.id.opponentSurfaceView);
-        cameraView = (CameraView) findViewById(R.id.camera_preview);
+        opponentView = (GLSurfaceView) findViewById(R.id.opponentView);
+        cameraView = (GLSurfaceView) findViewById(R.id.cameraView);
         opponentImageLoadingPb = (ProgressBar) findViewById(R.id.opponentImageLoading);
 
         // VideoChat settings
         videoChatConfig = getIntent().getParcelableExtra(VideoChatConfig.class.getCanonicalName());
         QBVideoChatService.getService().startVideoChat(videoChatConfig);
 
+        QBVideoChatService.getService().setQbVideoChatListener(qbVideoChatListener);
+        QBVideoChatService.getService().setCameraView(cameraView, opponentView, cameraViewListener, this);
     }
 
-    @Override
-    public void onResume() {
-        QBVideoChatService.getService().setQbVideoChatListener(qbVideoChatListener);
-        cameraView.setQBVideoChatListener(qbVideoChatListener);
-        cameraView.setOnCameraViewListener(new OnCameraViewListener() {
-            @Override
-            public void onCameraInit(List<Camera.Size> cameraPreviewSizes, List<Integer> listFps) {
-                cameraView.setCameraPreviewSizeImageQualityCameraFps(findMinimalSize(cameraPreviewSizes), 100, findMinimalFPS(listFps));
-            }
-        });
-        super.onResume();
-    }
+    private OnCameraViewListener cameraViewListener = new OnCameraViewListener() {
+        @Override
+        public void onCameraInit(List<Camera.Size> supportedPreviewSizes, List<Integer> supportedPreviewFpsRates) {
+            QBVideoChatService.getService().updateCameraViewSettings(findMinimalSize(supportedPreviewSizes), findMinimalFPS(supportedPreviewFpsRates), ActivityVideoChat.this);
+        }
+    };
+
 
     private int findMinimalFPS(List<Integer> fpSs) {
         return (fpSs.get(fpSs.size() - 1) > fpSs.get(0)) ? fpSs.get(0) : fpSs.get(fpSs.size() - 1);
@@ -80,11 +77,7 @@ public class ActivityVideoChat extends Activity {
 
     @Override
     public void onDestroy() {
-        try {
-            QBVideoChatService.getService().finishVideoChat(videoChatConfig.getSessionId());
-        } catch (Exception e) {
-            /*IGNORE*/
-        }
+        QBVideoChatService.getService().finishVideoChat(videoChatConfig.getSessionId());
         super.onDestroy();
     }
 
@@ -94,6 +87,7 @@ public class ActivityVideoChat extends Activity {
             if (videoChatConfig.getCallType() != CallType.VIDEO_AUDIO) {
                 return;
             }
+            Log.d("onCameraDataReceive", "onCameraDataReceive" + videoData.length);
             ServiceInteractor.INSTANCE.sendVideoData(ActivityVideoChat.this, videoData, value);
         }
 
@@ -104,7 +98,9 @@ public class ActivityVideoChat extends Activity {
 
         @Override
         public void onOpponentVideoDataReceive(byte[] videoData) {
-            opponentSurfaceView.setData(videoData);
+
+            Log.d("onOpponentVideoDataReceive", "onOpponentVideoDataReceive" + videoData.length);
+            QBVideoChatService.getService().loadOpponentImage(videoData);
         }
 
         @Override
