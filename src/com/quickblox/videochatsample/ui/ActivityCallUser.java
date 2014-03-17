@@ -65,14 +65,6 @@ public class ActivityCallUser extends Activity {
                 QBVideoChatController.getInstance().stopCalling();
             }
         });
-        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                //TODO add stopCalling here, send Cancel message
-                XMPPSender.sendCancelCallMsg(videoChatConfig);
-                QBVideoChatController.getInstance().stopCalling();
-            }
-        });
         txtName.setText("You logged in as " + myName);
 
         videoCallBtn.setOnClickListener(new View.OnClickListener() {
