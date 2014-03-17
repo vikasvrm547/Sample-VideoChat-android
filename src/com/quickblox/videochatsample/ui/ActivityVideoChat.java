@@ -38,7 +38,6 @@ public class ActivityVideoChat extends Activity {
         setContentView(R.layout.video_chat_layout);
         initViews();
     }
-//    private VideoChatViewsLoader videoChatViewsLoader;
 
     private void initViews() {
         Debugger.logConnection("initViews");
@@ -54,29 +53,8 @@ public class ActivityVideoChat extends Activity {
         QBVideoChatService.getService().startVideoChat(videoChatConfig);
 
         QBVideoChatService.getService().setQbVideoChatListener(qbVideoChatListener);
-        QBVideoChatService.getService().setCameraView(opponentView, cameraViewListener, this);
+        QBVideoChatService.getService().setCameraView(opponentView, this);
         cameraView.setQBVideoChatListener(qbVideoChatListener);
-        cameraView.setOnCameraViewListener(cameraViewListener);
-//        videoChatViewsLoader = new VideoChatViewsLoader(opponentView, this, cameraViewListener, qbVideoChatListener);
-    }
-
-    private OnCameraViewListener cameraViewListener = new OnCameraViewListener() {
-        @Override
-        public void onCameraInit(List<Camera.Size> supportedPreviewSizes, List<Integer> supportedPreviewFpsRates) {
-//            QBVideoChatService.getService().updateCameraViewSettings(findMinimalSize(supportedPreviewSizes), findMinimalFPS(supportedPreviewFpsRates), ActivityVideoChat.this);
-//            cameraView.setCameraPreviewSizeImageQualityCameraFps(findMinimalSize(supportedPreviewSizes), findMinimalFPS(supportedPreviewFpsRates), 25);
-        }
-    };
-
-
-    private int findMinimalFPS(List<Integer> fpSs) {
-        return (fpSs.get(fpSs.size() - 1) > fpSs.get(0)) ? fpSs.get(0) : fpSs.get(fpSs.size() - 1);
-    }
-
-    private Camera.Size findMinimalSize(List<Camera.Size> previewSizes) {
-        return (previewSizes.get(previewSizes.size() - 1).width > previewSizes.get(0).width) ?
-                previewSizes.get(0) :
-                previewSizes.get(previewSizes.size() - 1);
     }
 
     @Override
@@ -98,7 +76,6 @@ public class ActivityVideoChat extends Activity {
             }
             Log.d("onCameraDataReceive", "onCameraDataReceive" + videoData.length);
             ServiceInteractor.INSTANCE.sendVideoData(ActivityVideoChat.this, videoData, value);
-//            videoChatViewsLoader.loadOpponentImage(videoData);
         }
 
         @Override
@@ -111,7 +88,6 @@ public class ActivityVideoChat extends Activity {
 
             Log.d("onOpponentVideoDataReceive", "onOpponentVideoDataReceive" + videoData.length);
             QBVideoChatService.getService().loadOpponentImage(videoData);
-//            videoChatViewsLoader.loadOpponentImage(videoData);
         }
 
         @Override
