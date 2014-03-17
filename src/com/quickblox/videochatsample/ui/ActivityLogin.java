@@ -5,13 +5,19 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import com.quickblox.core.QBCallbackImpl;
+
+import com.quickblox.core.QBCallback;
 import com.quickblox.core.QBSettings;
 import com.quickblox.core.result.Result;
 import com.quickblox.module.auth.QBAuth;
 import com.quickblox.module.auth.result.QBSessionResult;
+import com.quickblox.module.chat.QBChatService;
+import com.quickblox.module.chat.listeners.SessionListener;
+import com.quickblox.module.videochat.core.QBVideoChatController;
 import com.quickblox.videochatsample.R;
 import com.quickblox.videochatsample.model.DataHolder;
+
+import org.jivesoftware.smack.XMPPException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -72,29 +78,61 @@ public class ActivityLogin extends Activity {
     }
 
     private void createSession(String login, final String password) {
-
-        // Create QuickBlox session with user
-        //
-        QBAuth.createSession(login, password, new QBCallbackImpl() {
-            @Override
-            public void onComplete(Result result) {
-                if (result.isSuccess()) {
-                    // save current user
-                    DataHolder.getInstance().setCurrentQbUser(((QBSessionResult) result).getSession().getUserId(), password);
-
-                    // show next activity
-                    showCallUserActivity();
-                }
-            }
-        });
+        QBAuth.createSession(login, password, new QBCreateSessionCallback(password));
     }
+
+    class QBCreateSessionCallback implements QBCallback {
+        private final String password;
+
+        QBCreateSessionCallback(String password) {
+            this.password = password;
+        }
+
+        @Override
+        public void onComplete(Result result) {
+            if (result.isSuccess()) {
+                // save current user
+                DataHolder.getInstance().setCurrentQbUser(((QBSessionResult) result).getSession().getUserId(), password);
+                QBChatService.getInstance().loginWithUser(DataHolder.getInstance().getCurrentQbUser(), loginListener);
+            }
+
+        }
+
+        @Override
+        public void onComplete(Result result, Object context) {
+
+        }
+    }
+
+    private SessionListener loginListener = new SessionListener() {
+        @Override
+        public void onLoginSuccess() {
+            try {
+                QBVideoChatController.getInstance().initQBVideoChatMessageListener();
+            } catch (XMPPException e) {
+                e.printStackTrace();
+            }
+            // show next activity
+            showCallUserActivity();
+        }
+
+        @Override
+        public void onLoginError() {
+        }
+
+        @Override
+        public void onDisconnect() {
+        }
+
+        @Override
+        public void onDisconnectOnError(Exception exc) {
+        }
+    };
 
     private void showCallUserActivity() {
         Intent intent = new Intent(this, ActivityCallUser.class);
         intent.putExtra("userId", DataHolder.getInstance().getCurrentQbUser().getId() == firstUserId ? secondUserId : firstUserId);
-        intent.putExtra("userName", DataHolder.getInstance().getCurrentQbUser().getId() == firstUserId ? secondUserName : firstUserName);
-        intent.putExtra("myId", DataHolder.getInstance().getCurrentQbUser().getId() != firstUserId ? secondUserId : firstUserId);
-        intent.putExtra("myName", DataHolder.getInstance().getCurrentQbUser().getId() != firstUserId ? secondUserName : firstUserName);
+//        intent.putExtra("userName", DataHolder.getInstance().getCurrentQbUser().getId() == firstUserId ? secondUserName : firstUserName);
         startActivity(intent);
         finish();
     }

@@ -1,43 +1,41 @@
 package com.quickblox.videochatsample.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.quickblox.module.videochat.model.utils.Debugger;
-import com.quickblox.videochatsample.R;
-import com.quickblox.videochatsample.model.DataHolder;
-import com.quickblox.videochatsample.model.listener.OnCallDialogListener;
-import com.quickblox.videochatsample.model.utils.DialogHelper;
+
 import com.quickblox.module.users.model.QBUser;
-import com.quickblox.module.videochat.core.service.QBVideoChatService;
+import com.quickblox.module.videochat.core.QBVideoChatController;
 import com.quickblox.module.videochat.model.listeners.OnQBVideoChatListener;
 import com.quickblox.module.videochat.model.objects.CallState;
 import com.quickblox.module.videochat.model.objects.CallType;
 import com.quickblox.module.videochat.model.objects.VideoChatConfig;
+import com.quickblox.module.videochat.model.utils.XMPPSender;
+import com.quickblox.videochatsample.R;
+import com.quickblox.videochatsample.model.DataHolder;
+import com.quickblox.videochatsample.model.listener.OnCallDialogListener;
+import com.quickblox.videochatsample.model.utils.DialogHelper;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Andrew Dmitrenko
- * Date: 6/17/13
- * Time: 10:06 AM
- */
+import org.jivesoftware.smack.XMPPException;
+
 public class ActivityCallUser extends Activity {
 
-    private static final String TAG = ActivityCallUser.class.getSimpleName();
     private ProgressDialog progressDialog;
     private Button audioCallBtn;
     private Button videoCallBtn;
     private QBUser qbUser;
-    private boolean isCanceledVideoCall;
     private VideoChatConfig videoChatConfig;
     private TextView txtName;
+    private AlertDialog alertDialog;
 
 
     @Override
@@ -49,10 +47,8 @@ public class ActivityCallUser extends Activity {
 
     private void initViews() {
         int userId = getIntent().getIntExtra("userId", 0);
-        String userName = getIntent().getStringExtra("userName");
         String myName = getIntent().getStringExtra("myName");
         qbUser = new QBUser(userId);
-        isCanceledVideoCall = true;
 
         // Setup UI
         //
@@ -61,48 +57,43 @@ public class ActivityCallUser extends Activity {
         videoCallBtn = (Button) findViewById(R.id.videoCallBtn);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.please_wait));
-        txtName.setText("You logged in as " + myName);
-
         progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                if (isCanceledVideoCall) {
-                    QBVideoChatService.getService().stopCalling(videoChatConfig);
-                }
+            public void onDismiss(DialogInterface dialog) {
+                //TODO add stopCalling here, send Cancel message
+                XMPPSender.sendCancelCallMsg(videoChatConfig);
+                QBVideoChatController.getInstance().stopCalling();
             }
         });
+        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                //TODO add stopCalling here, send Cancel message
+                XMPPSender.sendCancelCallMsg(videoChatConfig);
+                QBVideoChatController.getInstance().stopCalling();
+            }
+        });
+        txtName.setText("You logged in as " + myName);
 
         videoCallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (progressDialog != null && !progressDialog.isShowing()){
+                if (progressDialog != null && !progressDialog.isShowing()) {
                     progressDialog.show();
                 }
-                videoChatConfig = QBVideoChatService.getService().callUser(qbUser, CallType.VIDEO_AUDIO, null);
+                videoChatConfig = QBVideoChatController.getInstance().callFriend(qbUser, CallType.VIDEO_AUDIO, null);
             }
         });
 
         audioCallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (progressDialog != null && !progressDialog.isShowing()){
+                if (progressDialog != null && !progressDialog.isShowing()) {
                     progressDialog.show();
                 }
-                videoChatConfig = QBVideoChatService.getService().callUser(qbUser, CallType.AUDIO, null);
+                videoChatConfig = QBVideoChatController.getInstance().callFriend(qbUser, CallType.AUDIO, null);
             }
         });
-//        String userName = getIntent().getStringExtra("userName");
-//        audioCallBtn.setText(audioCallBtn.getText().toString() + " " + userName);
-
-        // Set VideoCHat listener
-        //
-        QBUser currentQbUser = DataHolder.getInstance().getCurrentQbUser();
-        Debugger.logConnection("setQBVideoChatListener: " + (currentQbUser == null));
-        try {
-            QBVideoChatService.getService().setQBVideoChatListener(currentQbUser, qbVideoChatListener);
-        } catch (Exception e){
-            /*IGNORE*/
-        }
     }
 
     private OnQBVideoChatListener qbVideoChatListener = new OnQBVideoChatListener() {
@@ -110,52 +101,58 @@ public class ActivityCallUser extends Activity {
         @Override
         public void onVideoChatStateChange(CallState state, VideoChatConfig receivedVideoChatConfig) {
             videoChatConfig = receivedVideoChatConfig;
-            isCanceledVideoCall = false;
+            if (progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
             switch (state) {
-                case ON_CALLING:
+                case ACCEPT:
                     showCallDialog();
                     break;
                 case ON_ACCEPT_BY_USER:
-                    progressDialog.dismiss();
+                    QBVideoChatController.getInstance().onAcceptFriendCall(videoChatConfig, null);
                     startVideoChatActivity();
                     break;
                 case ON_REJECTED_BY_USER:
-                    progressDialog.dismiss();
+                    Toast.makeText(ActivityCallUser.this, "Rejected by user", Toast.LENGTH_SHORT).show();
                     break;
                 case ON_DID_NOT_ANSWERED:
-                    progressDialog.dismiss();
+                    Toast.makeText(ActivityCallUser.this, "User did not answer", Toast.LENGTH_SHORT).show();
                     break;
                 case ON_CANCELED_CALL:
-                    isCanceledVideoCall = true;
                     videoChatConfig = null;
-                    break;
-                case ON_START_CONNECTING:
-                    progressDialog.dismiss();
-                    startVideoChatActivity();
+                    if (alertDialog != null && alertDialog.isShowing()){
+                        alertDialog.dismiss();
+                    }
+                    autoCancelHandler.removeCallbacks(autoCancelTask);
                     break;
             }
         }
     };
 
+    private Handler autoCancelHandler = new Handler(Looper.getMainLooper());
+    private Runnable autoCancelTask = new Runnable() {
+        @Override
+        public void run() {
+            if (alertDialog != null && alertDialog.isShowing()){
+                alertDialog.dismiss();
+            }
+        }
+    };
 
     private void showCallDialog() {
-        DialogHelper.showCallDialog(this, new OnCallDialogListener() {
+        autoCancelHandler.postDelayed(autoCancelTask, 30000);
+        alertDialog = DialogHelper.showCallDialog(this, new OnCallDialogListener() {
             @Override
             public void onAcceptCallClick() {
-                if (videoChatConfig == null) {
-                    Toast.makeText(getBaseContext(), getString(R.string.call_canceled_txt), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                QBVideoChatService.getService().acceptCall(videoChatConfig);
+                QBVideoChatController.getInstance().acceptCallByFriend(videoChatConfig, null);
+                startVideoChatActivity();
+                autoCancelHandler.removeCallbacks(autoCancelTask);
             }
 
             @Override
             public void onRejectCallClick() {
-                if (videoChatConfig == null) {
-                    Toast.makeText(getBaseContext(), getString(R.string.call_canceled_txt), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                QBVideoChatService.getService().rejectCall(videoChatConfig);
+                QBVideoChatController.getInstance().rejectCall(videoChatConfig);
+                autoCancelHandler.removeCallbacks(autoCancelTask);
             }
         });
     }
@@ -163,9 +160,11 @@ public class ActivityCallUser extends Activity {
     @Override
     public void onResume() {
         try {
-            QBVideoChatService.getService().setQbVideoChatListener(qbVideoChatListener);
+            QBVideoChatController.getInstance().setQBVideoChatListener(DataHolder.getInstance().getCurrentQbUser(), qbVideoChatListener);
         } catch (NullPointerException ex) {
             ex.printStackTrace();
+        } catch (XMPPException e) {
+            e.printStackTrace();
         }
         super.onResume();
     }
@@ -177,11 +176,4 @@ public class ActivityCallUser extends Activity {
         startActivity(intent);
     }
 
-
-    @Override
-    public void onDestroy() {
-        Log.v(TAG, "onDestroy");
-        stopService(new Intent(getApplicationContext(), QBVideoChatService.class));
-        super.onDestroy();
-    }
 }

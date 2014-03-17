@@ -18,7 +18,7 @@ public class DialogHelper {
 
     private static AlertDialog.Builder builder;
 
-    public static void showCallDialog(Context context, final OnCallDialogListener callDialogListener) {
+    public static AlertDialog showCallDialog(Context context, final OnCallDialogListener callDialogListener) {
         if (builder == null) {
             DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
                 @Override
@@ -43,6 +43,7 @@ public class DialogHelper {
                     .show();
         }
 
+        return builder.create();
     }
 
 

@@ -1,21 +1,18 @@
 package com.quickblox.videochatsample.ui;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.Intent;
-import com.quickblox.module.videochat.core.service.QBVideoChatService;
+
+import com.quickblox.module.chat.smack.SmackAndroid;
+import com.quickblox.module.users.model.QBUser;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Andrew Dmitrenko
- * Date: 8/20/13
- * Time: 12:03 PM
+ * Created by piryatenets on 17.03.14.
  */
 public class App extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        startService(new Intent(this, QBVideoChatService.class));
+        SmackAndroid.init(this);
     }
 }
