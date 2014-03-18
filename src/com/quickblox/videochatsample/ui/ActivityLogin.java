@@ -19,12 +19,6 @@ import com.quickblox.videochatsample.model.DataHolder;
 
 import org.jivesoftware.smack.XMPPException;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Andrew Dmitrenko
- * Date: 6/17/13
- * Time: 9:55 AM
- */
 public class ActivityLogin extends Activity {
 
     private final String FIRST_USER_PASSWORD = "videoChatUser1";

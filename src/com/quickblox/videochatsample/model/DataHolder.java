@@ -2,12 +2,6 @@ package com.quickblox.videochatsample.model;
 
 import com.quickblox.module.users.model.QBUser;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Andrew Dmitrenko
- * Date: 6/17/13
- * Time: 10:17 AM
- */
 public class DataHolder {
 
     private static DataHolder dataHolder;

@@ -9,12 +9,6 @@ import com.quickblox.module.videochat.model.definition.VideoChatConstants;
 import com.quickblox.videochatsample.R;
 import com.quickblox.videochatsample.model.listener.OnCallDialogListener;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Andrew Dmitrenko
- * Date: 7/23/13
- * Time: 11:03 AM
- */
 public class DialogHelper {
 
     private static AlertDialog.Builder builder;
