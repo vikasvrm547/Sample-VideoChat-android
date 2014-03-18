@@ -19,6 +19,7 @@ import com.quickblox.module.videochat.model.listeners.OnQBVideoChatListener;
 import com.quickblox.module.videochat.model.objects.CallState;
 import com.quickblox.module.videochat.model.objects.CallType;
 import com.quickblox.module.videochat.model.objects.VideoChatConfig;
+import com.quickblox.module.videochat.model.utils.Debugger;
 import com.quickblox.module.videochat.model.utils.XMPPSender;
 import com.quickblox.videochatsample.R;
 import com.quickblox.videochatsample.model.DataHolder;
@@ -60,9 +61,9 @@ public class ActivityCallUser extends Activity {
         progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                //TODO add stopCalling here, send Cancel message
-                XMPPSender.sendCancelCallMsg(videoChatConfig);
-                QBVideoChatController.getInstance().stopCalling();
+                //TODO add stopCalling here, send Cancel message if need
+//                XMPPSender.sendCancelCallMsg(videoChatConfig);
+//                QBVideoChatController.getInstance().stopCalling();
             }
         });
         txtName.setText("You logged in as " + myName);
@@ -92,6 +93,7 @@ public class ActivityCallUser extends Activity {
 
         @Override
         public void onVideoChatStateChange(CallState state, VideoChatConfig receivedVideoChatConfig) {
+            Debugger.logConnection("onVideoChatStateChange: " + state);
             videoChatConfig = receivedVideoChatConfig;
             if (progressDialog != null && progressDialog.isShowing()) {
                 progressDialog.dismiss();

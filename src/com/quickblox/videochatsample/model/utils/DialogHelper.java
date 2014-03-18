@@ -1,12 +1,13 @@
 package com.quickblox.videochatsample.model.utils;
 
-import com.quickblox.videochatsample.R;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
-import com.quickblox.videochatsample.model.listener.OnCallDialogListener;
+
 import com.quickblox.module.videochat.model.definition.VideoChatConstants;
+import com.quickblox.videochatsample.R;
+import com.quickblox.videochatsample.model.listener.OnCallDialogListener;
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,6 +34,7 @@ public class DialogHelper {
                             deleteCallDialog();
                             break;
                     }
+//                    dismissDialog();
                 }
             };
             builder = new AlertDialog.Builder(context);
