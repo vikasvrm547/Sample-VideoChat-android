@@ -32,10 +32,10 @@ public class ActivityLogin extends Activity {
     private final String SECOND_USER_PASSWORD = "videoChatUser2";
     private final String SECOND_USER_LOGIN = "videoChatUser2";
 
-    private final int firstUserId = 217738;
+    private final int firstUserId = 65421;
     private final String firstUserName = "first user";
     private final String secondUserName = "second user";
-    private final int secondUserId = 217740;
+    private final int secondUserId = 65422;
 
     private ProgressDialog progressDialog;
 
@@ -68,7 +68,7 @@ public class ActivityLogin extends Activity {
 
         // Set QuickBlox credentials here
         //
-        QBSettings.getInstance().fastConfigInit("2944", "RfghS97xYA29Mha", "L2EXV6ut-vD8Zus");
+        QBSettings.getInstance().fastConfigInit("92", "wJHdOcQSxXQGWx5", "BTFsj7Rtt27DAmT");
     }
 
     @Override
@@ -133,6 +133,7 @@ public class ActivityLogin extends Activity {
         Intent intent = new Intent(this, ActivityCallUser.class);
         intent.putExtra("userId", DataHolder.getInstance().getCurrentQbUser().getId() == firstUserId ? secondUserId : firstUserId);
 //        intent.putExtra("userName", DataHolder.getInstance().getCurrentQbUser().getId() == firstUserId ? secondUserName : firstUserName);
+        intent.putExtra("myName", DataHolder.getInstance().getCurrentQbUser().getId() == firstUserId ? firstUserName : secondUserName);
         startActivity(intent);
         finish();
     }
